@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Google CLoud Storage Example</title>
+  <link rel="stylesheet" href="">
+</head>
+<body>
+
+  <form action="" onsubmit="submit()" id="form">
+    <input type="file" id="file">
+    <input type="text" id="name">
+    <button type="submit">Upload to Cloud Storage</button>
+  </form>
+
+  <script>
+    const form = document.querySelector('#form');
+
+    // submit function for the form
+    function submit(e) {
+      // prevent form's default submit action
+      e.preventDefault();
+
+      // get a google access token from our own server
+      /******* CHANGE THE URL TO SUIT YOUR NEEDS *******/
+      fetch('http://localhost:3000/token')
+      .then(r => r.json())
+      .then(data => doUpload(data.token))
+      .catch(err => console.log(err));
+    }
+
+    function doUpload(token) {
+      /******* CHANGE TO YOUR OWN BUCKET'S NAME *******/
+      const BUCKET = 'bucket-name';
+      const BASE_URL = `https://www.googleapis.com/upload/storage/v1/b/${BUCKET}/o`;
+      // using the simple media upload as per the spec here: https://cloud.google.com/storage/docs/json_api/v1/how-tos/simple-upload
+      const queryParams = encodeURIComponent('uploadType=media');
+      const URL = BASE_URL + '?' + queryParams;
+
+      // get the file object
+      const selectedFile = document.querySelector('#file').files[0];
+      // get an encoded file name - either from the name input or from the file itself
+      const fileName = encodeURIComponent(docment.querySelector('#name').value || selectedFile.name);
+
+      // do the upload
+      // headers are required, and here, we're naively getting the MIME type from the file extension
+      fetch(URL, {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': selectedFile.type,
+          'Content-Length': selectedFile.size,
+          'Authorization': `Bearer ${token}`,
+        }),
+        body: selectedFile,
+      })
+      .then(r => r.json())
+      .then(resp => console.log(resp))
+      .catch(err => console.log(err));
+
+    }
+
+  </script>
+
+</body>
+</html>
