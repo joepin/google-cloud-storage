@@ -37,13 +37,13 @@ function getAccessToken(req, res, next) {
   // make a request to the auth endpoint with the signature
   // see here for details: https://developers.google.com/identity/protocols/OAuth2ServiceAccount
   fetch('https://www.googleapis.com/oauth2/v4/token', {
-    method: 'POST';
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: {
       'grant_type': encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer'),
-      'assertion': encodeURIComponent(signature);
+      'assertion': encodeURIComponent(signature),
     }
   })
   .then(r => r.json())
