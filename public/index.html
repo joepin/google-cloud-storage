@@ -3,19 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Google CLoud Storage Example</title>
+  <title>Google Cloud Storage Example</title>
   <link rel="stylesheet" href="">
 </head>
 <body>
 
-  <form action="" onsubmit="submit()" id="form">
+  <form action="" id="form">
     <input type="file" id="file">
     <input type="text" id="name">
-    <button type="submit">Upload to Cloud Storage</button>
+    <button type="submit" id="button">Upload to Cloud Storage</button>
   </form>
 
   <script>
-    const form = document.querySelector('#form');
+    const button = document.querySelector('#button');
+    button.addEventListener('click', submit);
 
     // submit function for the form
     function submit(e) {
