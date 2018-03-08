@@ -42,7 +42,7 @@
       // get the file object
       const selectedFile = document.querySelector('#file').files[0];
       // get an encoded file name - either from the name input or from the file itself
-      const fileName = encodeURIComponent(docment.querySelector('#name').value || selectedFile.name);
+      const fileName = encodeURIComponent(document.querySelector('#name').value || selectedFile.name);
 
       // do the upload
       // headers are required, and here, we're naively getting the MIME type from the file extension
